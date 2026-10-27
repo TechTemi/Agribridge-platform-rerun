@@ -30,7 +30,7 @@ spec:
 
           env:
             - name: API_UPSTREAM
-              value: "{{ .Release.Name }}-api:{{ .Values.api.port }}"
+              value: {{ printf "%s-api.%s.svc.cluster.local:%v" .Release.Name .Release.Namespace .Values.api.port | quote }}
 
           livenessProbe:
             httpGet:
