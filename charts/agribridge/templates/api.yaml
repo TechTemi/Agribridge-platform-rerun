@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
         - name: api
-          image: "{{ .Values.dockerhubUser }}/agribridge-api:{{ .Values.imageTag }}"
+          image: {{ default (printf "%s/agribridge-api:%s" .Values.dockerhubUser .Values.imageTag) .Values.api.image | quote }}
           ports:
             - name: http
               containerPort: {{ .Values.api.port }}
@@ -50,7 +50,7 @@ spec:
             - name: IMAGE_TAG
               value: {{ .Values.imageTag | quote }}
             - name: GIT_SHA
-              value: {{ .Values.imageTag | quote }}
+              value: {{ default .Values.imageTag .Values.sourceSHA | quote }}
 
           # The password and session key come from the Secret, never from here.
           envFrom:

@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
         - name: web
-          image: "{{ .Values.dockerhubUser }}/agribridge-web:{{ .Values.imageTag }}"
+          image: {{ default (printf "%s/agribridge-web:%s" .Values.dockerhubUser .Values.imageTag) .Values.web.image | quote }}
           ports:
             - name: http
               containerPort: {{ .Values.web.port }}
